@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, SlidersHorizontal } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 type PageProps = {
   params: { category: string; subcategory: string };
 };
@@ -258,20 +260,4 @@ export default async function SubcategoryPage({ params }: PageProps) {
       </div>
     </div>
   );
-}
-
-// Generate static params for all subcategories
-export async function generateStaticParams() {
-  const params: { category: string; subcategory: string }[] = [];
-
-  Object.entries(CATEGORIES).forEach(([categorySlug, categoryData]) => {
-    Object.keys(categoryData.subcategories).forEach((subcategorySlug) => {
-      params.push({
-        category: categorySlug,
-        subcategory: subcategorySlug,
-      });
-    });
-  });
-
-  return params;
 }

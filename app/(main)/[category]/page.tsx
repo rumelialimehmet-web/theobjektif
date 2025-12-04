@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ChevronRight } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 type PageProps = {
   params: { category: string };
 };
@@ -146,11 +148,4 @@ export default async function CategoryPage({ params }: PageProps) {
       )}
     </div>
   );
-}
-
-// Generate static params for all categories
-export async function generateStaticParams() {
-  return Object.keys(CATEGORIES).map((category) => ({
-    category,
-  }));
 }

@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Users, Palette, Zap, GitCompare, MessageSquare, HelpCircle } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 type PageProps = {
   params: { category: string; subcategory: string; product: string };
 };
@@ -370,23 +372,4 @@ export default async function ProductPage({ params }: PageProps) {
       </div>
     </div>
   );
-}
-
-// Generate static params for all products
-export async function generateStaticParams() {
-  const { getAllProducts } = await import("@/lib/supabase-queries");
-
-  // Supabase'den ürünleri çek (fallback: boş dizi)
-  const products = await getAllProducts();
-
-  // Eğer Supabase'de veri yoksa, boş dizi dön (dinamik olarak oluşturulacak)
-  if (!products || products.length === 0) {
-    return [];
-  }
-
-  return products.map((product) => ({
-    category: product.category,
-    subcategory: product.subcategory,
-    product: product.slug,
-  }));
 }
