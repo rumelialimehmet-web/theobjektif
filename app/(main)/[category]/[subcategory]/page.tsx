@@ -17,7 +17,11 @@ export default function SubcategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const subcategoryData = categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories];
+  const subcategoryData = categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
+
+  if (!subcategoryData) {
+    notFound();
+  }
 
   // Bu alt kategorideki ürünleri filtrele
   const products = MOCK_PRODUCTS.filter(
