@@ -8,9 +8,9 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       {/* Admin Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -18,8 +18,8 @@ export default function AdminLayout({
                 <span className="text-white font-bold text-sm">TO</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-primary">The Objektif</h1>
-                <p className="text-xs text-muted-foreground">Admin Panel</p>
+                <h1 className="text-xl font-bold text-slate-900">The Objektif</h1>
+                <p className="text-xs text-slate-600">Admin Panel</p>
               </div>
             </div>
             <form action="/api/admin/logout" method="POST">
@@ -39,23 +39,23 @@ export default function AdminLayout({
             <nav className="space-y-1">
               <Link
                 href="/admin"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white transition-colors"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-100 transition-colors text-slate-700 hover:text-slate-900"
               >
-                <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
+                <LayoutDashboard className="h-5 w-5" />
                 <span className="font-medium">Dashboard</span>
               </Link>
               <Link
                 href="/admin/products"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white transition-colors"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-100 transition-colors text-slate-700 hover:text-slate-900"
               >
-                <Package className="h-5 w-5 text-muted-foreground" />
+                <Package className="h-5 w-5" />
                 <span className="font-medium">Ürünler</span>
               </Link>
               <Link
                 href="/admin/settings"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white transition-colors"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-100 transition-colors text-slate-700 hover:text-slate-900"
               >
-                <Settings className="h-5 w-5 text-muted-foreground" />
+                <Settings className="h-5 w-5" />
                 <span className="font-medium">Ayarlar</span>
               </Link>
             </nav>
