@@ -89,7 +89,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   <CardTitle className="text-xl">{product.name}</CardTitle>
                   {product.safety_badges && (
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {product.safety_badges.map((badge) => (
+                      {product.safety_badges.map((badge: string) => (
                         <Badge key={badge} variant="success" className="text-xs">
                           {badge}
                         </Badge>
