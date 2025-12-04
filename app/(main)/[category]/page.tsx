@@ -12,18 +12,19 @@ export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 type PageProps = {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 };
 
 export default async function CategoryPage({ params }: PageProps) {
-  const categoryData = CATEGORIES[params.category as CategorySlug];
+  const { category } = await params;
+  const categoryData = CATEGORIES[category as CategorySlug];
 
   if (!categoryData) {
     notFound();
   }
 
   // Bu kategorideki ürünleri Supabase'den getir
-  const categoryProducts = await getProductsByCategory(params.category);
+  const categoryProducts = await getProductsByCategory(category);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -50,7 +51,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <h2 className="text-2xl font-bold text-primary mb-6">Alt Kategoriler</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(categoryData.subcategories).map(([slug, subcat]) => (
-            <Link key={slug} href={`/${params.category}/${slug}`}>
+            <Link key={slug} href={`/${category}/${slug}`}>
               <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
                 <CardHeader>
                   <CardTitle className="text-lg group-hover:text-accent transition-colors">
@@ -136,7 +137,7 @@ export default async function CategoryPage({ params }: PageProps) {
       )}
 
       {/* Anne-Bebek özel mesaj */}
-      {params.category === "anne-bebek" && (
+      {category === "anne-bebek" && (
         <div className="mt-12 p-6 bg-pink-50 rounded-xl border border-pink-200">
           <h3 className="text-lg font-semibold text-primary mb-2">
             🛡️ Güvenlik Önceliğimiz

@@ -11,27 +11,28 @@ export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 type PageProps = {
-  params: { category: string; subcategory: string };
+  params: Promise<{ category: string; subcategory: string }>;
 };
 
 export default async function SubcategoryPage({ params }: PageProps) {
-  const categoryData = CATEGORIES[params.category as CategorySlug];
+  const { category, subcategory } = await params;
+  const categoryData = CATEGORIES[category as CategorySlug];
 
-  if (!categoryData || !categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories]) {
+  if (!categoryData || !categoryData.subcategories[subcategory as keyof typeof categoryData.subcategories]) {
     notFound();
   }
 
-  const subcategoryData = categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
+  const subcategoryData = categoryData.subcategories[subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
 
   if (!subcategoryData) {
     notFound();
   }
 
   // Bu alt kategorideki ürünleri Supabase'den getir
-  const products = await getProductsBySubcategory(params.category, params.subcategory);
+  const products = await getProductsBySubcategory(category, subcategory);
 
   // Anne-Bebek kategorisi mi?
-  const isBabyCategory = params.category === "anne-bebek";
+  const isBabyCategory = category === "anne-bebek";
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -39,7 +40,7 @@ export default async function SubcategoryPage({ params }: PageProps) {
       <div className="flex items-center text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-accent">Ana Sayfa</Link>
         <ChevronRight className="h-4 w-4 mx-2" />
-        <Link href={`/${params.category}`} className="hover:text-accent">
+        <Link href={`/${category}`} className="hover:text-accent">
           {categoryData.name}
         </Link>
         <ChevronRight className="h-4 w-4 mx-2" />

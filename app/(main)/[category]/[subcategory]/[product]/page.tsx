@@ -15,24 +15,25 @@ export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 type PageProps = {
-  params: { category: string; subcategory: string; product: string };
+  params: Promise<{ category: string; subcategory: string; product: string }>;
 };
 
 export default async function ProductPage({ params }: PageProps) {
-  const categoryData = CATEGORIES[params.category as CategorySlug];
+  const { category, subcategory, product: productSlug } = await params;
+  const categoryData = CATEGORIES[category as CategorySlug];
 
   if (!categoryData) {
     notFound();
   }
 
   // Ürünü Supabase'den getir
-  const product = await getProductBySlug(params.product);
+  const product = await getProductBySlug(productSlug);
 
   if (!product) {
     notFound();
   }
 
-  const subcategoryData = categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
+  const subcategoryData = categoryData.subcategories[subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
 
   if (!subcategoryData) {
     notFound();
@@ -64,11 +65,11 @@ export default async function ProductPage({ params }: PageProps) {
       <div className="flex items-center text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-accent">Ana Sayfa</Link>
         <ChevronRight className="h-4 w-4 mx-2" />
-        <Link href={`/${params.category}`} className="hover:text-accent">
+        <Link href={`/${category}`} className="hover:text-accent">
           {categoryData.name}
         </Link>
         <ChevronRight className="h-4 w-4 mx-2" />
-        <Link href={`/${params.category}/${params.subcategory}`} className="hover:text-accent">
+        <Link href={`/${category}/${subcategory}`} className="hover:text-accent">
           {subcategoryData.name}
         </Link>
         <ChevronRight className="h-4 w-4 mx-2" />
