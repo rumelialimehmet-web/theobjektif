@@ -191,7 +191,7 @@ export default async function ProductPage({ params }: PageProps) {
                         {key.replace(/([A-Z])/g, " $1")}
                       </p>
                       <p className="text-sm font-semibold text-primary mt-1">
-                        {typeof value === "boolean" ? (value ? "✓" : "✗") : value}
+                        {typeof value === "boolean" ? (value ? "✓" : "✗") : String(value ?? "-")}
                       </p>
                     </div>
                   ))}
