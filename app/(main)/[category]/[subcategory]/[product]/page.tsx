@@ -105,6 +105,7 @@ export default function ProductPage({ params }: PageProps) {
 
           {/* Fiyat Alarmı */}
           <PriceAlertModal
+            productId={product.id}
             productName={product.name}
             currentPrice={product.current_price}
           />

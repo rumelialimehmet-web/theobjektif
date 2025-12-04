@@ -13,37 +13,50 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { createPriceAlert } from "@/lib/supabase-queries";
 
 type PriceAlertModalProps = {
+  productId: string;
   productName: string;
   currentPrice: number;
 };
 
-export function PriceAlertModal({ productName, currentPrice }: PriceAlertModalProps) {
+export function PriceAlertModal({ productId, productName, currentPrice }: PriceAlertModalProps) {
   const [open, setOpen] = useState(false);
   const [targetPrice, setTargetPrice] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
-    // TODO: Supabase'e kaydetme işlemi buraya gelecek
-    // Şimdilik mock delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Supabase'e kaydet
+    const result = await createPriceAlert({
+      productId,
+      email,
+      targetPrice: parseFloat(targetPrice),
+      currentPrice,
+    });
 
-    setIsSuccess(true);
     setIsSubmitting(false);
 
-    // 2 saniye sonra modalı kapat
-    setTimeout(() => {
-      setOpen(false);
-      setIsSuccess(false);
-      setTargetPrice("");
-      setEmail("");
-    }, 2000);
+    if (result.success) {
+      setIsSuccess(true);
+
+      // 2 saniye sonra modalı kapat
+      setTimeout(() => {
+        setOpen(false);
+        setIsSuccess(false);
+        setTargetPrice("");
+        setEmail("");
+      }, 2000);
+    } else {
+      setError("Bir hata oluştu. Lütfen tekrar deneyin.");
+    }
   };
 
   const suggestedPrices = [
@@ -135,6 +148,13 @@ export function PriceAlertModal({ productName, currentPrice }: PriceAlertModalPr
                   🔒 E-posta adresiniz sadece fiyat düşüş bildirimleri için kullanılır.
                 </p>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-sm text-rose-600">
+                  {error}
+                </div>
+              )}
 
               {/* Submit */}
               <Button type="submit" className="w-full" disabled={isSubmitting}>
