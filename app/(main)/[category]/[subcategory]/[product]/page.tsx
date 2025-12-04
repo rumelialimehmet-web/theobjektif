@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CATEGORIES, MOCK_PRODUCTS, CategorySlug } from "@/lib/categories";
 import { ObjektifScoreCard } from "@/components/product/objektif-score-card";
 import { PriceButtons } from "@/components/product/price-buttons";
+import { PriceAlertModal } from "@/components/product/price-alert-modal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -95,11 +96,17 @@ export default function ProductPage({ params }: PageProps) {
         />
 
         {/* Sağ: Fiyat Butonları */}
-        <div>
+        <div className="space-y-4">
           <PriceButtons
             currentPrice={product.current_price}
             originalPrice={product.original_price}
             platforms={platforms}
+          />
+
+          {/* Fiyat Alarmı */}
+          <PriceAlertModal
+            productName={product.name}
+            currentPrice={product.current_price}
           />
         </div>
       </div>
