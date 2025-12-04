@@ -2,8 +2,11 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package, Plus, TrendingUp, Users } from "lucide-react";
+import { requireAuth } from "@/lib/auth";
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  // Require authentication
+  await requireAuth();
   return (
     <div className="space-y-6">
       {/* Page Header */}

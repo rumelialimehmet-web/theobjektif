@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { requireAuth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage() {
+  // Require authentication
+  await requireAuth();
   // Tüm ürünleri getir
   const { data: products, error } = await supabase
     .from("products")

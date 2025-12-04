@@ -2,7 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { supabase } from "@/lib/supabase";
+import { verifyPassword, getAdminToken, getCookieName } from "@/lib/auth";
 
 export type ProductFormData = {
   name: string;
@@ -81,6 +83,40 @@ export async function deleteProduct(productId: string) {
   }
 }
 
+export async function loginAdmin(password: string) {
+  try {
+    // Verify password
+    if (!verifyPassword(password)) {
+      return { success: false, error: "Hatalı şifre!" };
+    }
+
+    // Set auth cookie
+    const cookieStore = await cookies();
+    cookieStore.set(getCookieName(), getAdminToken(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, // 24 hours
+      path: "/",
+    });
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Bilinmeyen hata"
+    };
+  }
+}
+
 export async function logoutAdmin() {
-  redirect("/admin/login");
+  try {
+    // Remove auth cookie
+    const cookieStore = await cookies();
+    cookieStore.delete(getCookieName());
+
+    return { success: true };
+  } catch (error) {
+    return { success: false };
+  }
 }

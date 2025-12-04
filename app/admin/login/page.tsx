@@ -18,13 +18,20 @@ export default function AdminLoginPage() {
     setIsLoading(true);
     setError("");
 
-    // Basit password check (production'da değiştir!)
-    if (password === "objektif2024") {
-      // Cookie set et
-      document.cookie = "admin-auth=objektif-admin-2024; path=/; max-age=86400"; // 24 saat
-      router.push("/admin");
-    } else {
-      setError("Hatalı şifre!");
+    try {
+      // Use server action for login
+      const { loginAdmin } = await import("@/app/admin/actions");
+      const result = await loginAdmin(password);
+
+      if (result.success) {
+        router.push("/admin");
+        router.refresh(); // Refresh to update auth state
+      } else {
+        setError(result.error || "Giriş başarısız!");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError("Bir hata oluştu!");
       setIsLoading(false);
     }
   };

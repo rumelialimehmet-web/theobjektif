@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { LayoutDashboard, Package, Settings, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { LayoutDashboard, Package, Settings } from "lucide-react";
+import { LogoutButton } from "@/components/admin/logout-button";
 
 export default function AdminLayout({
   children,
@@ -22,12 +22,7 @@ export default function AdminLayout({
                 <p className="text-xs text-slate-600">Admin Panel</p>
               </div>
             </div>
-            <form action="/api/admin/logout" method="POST">
-              <Button variant="outline" size="sm">
-                <LogOut className="h-4 w-4 mr-2" />
-                Çıkış
-              </Button>
-            </form>
+            <LogoutButton />
           </div>
         </div>
       </header>
