@@ -60,6 +60,47 @@ export async function createProduct(formData: ProductFormData) {
   }
 }
 
+export async function updateProduct(productId: string, formData: ProductFormData) {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .update({
+        name: formData.name,
+        slug: formData.slug,
+        category: formData.category,
+        subcategory: formData.subcategory,
+        brand: formData.brand,
+        current_price: formData.currentPrice,
+        original_price: formData.originalPrice,
+        rating: formData.rating,
+        pros: formData.pros,
+        cons: formData.cons,
+        specs: formData.specs,
+        safety_badges: formData.safetyBadges || [],
+      })
+      .eq("id", productId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/");
+    revalidatePath(`/${data.category}/${data.subcategory}/${data.slug}`);
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Bilinmeyen hata"
+    };
+  }
+}
+
 export async function deleteProduct(productId: string) {
   try {
     const { error } = await supabase

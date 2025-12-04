@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { requireAuth } from "@/lib/auth";
+import { DeleteProductButton } from "@/components/admin/delete-product-button";
 
 export const dynamic = "force-dynamic";
 
@@ -110,14 +111,16 @@ export default async function ProductsPage() {
                         Önizle
                       </Button>
                     </Link>
-                    <Button variant="outline" size="sm" disabled>
-                      <Pencil className="h-4 w-4 mr-1" />
-                      Düzenle
-                    </Button>
-                    <Button variant="outline" size="sm" disabled>
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      Sil
-                    </Button>
+                    <Link href={`/admin/products/${product.id}/edit`}>
+                      <Button variant="outline" size="sm">
+                        <Pencil className="h-4 w-4 mr-1" />
+                        Düzenle
+                      </Button>
+                    </Link>
+                    <DeleteProductButton
+                      productId={product.id}
+                      productName={product.name}
+                    />
                   </div>
                 </div>
               </CardContent>
