@@ -13,7 +13,6 @@ import { ChevronRight, Users, Palette, Zap, GitCompare, MessageSquare, HelpCircl
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
-export const revalidate = 0;
 
 type PageProps = {
   params: { category: string; subcategory: string; product: string };
