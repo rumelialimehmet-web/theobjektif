@@ -138,19 +138,21 @@ export default function SubcategoryPage({ params }: PageProps) {
                   </div>
 
                   {/* Age Range */}
-                  <div>
-                    <h3 className="font-semibold text-sm mb-3 text-pink-600">
-                      👶 Yaş Aralığı
-                    </h3>
-                    <div className="space-y-2">
-                      {categoryData.ageRanges?.map((range) => (
-                        <label key={range} className="flex items-center gap-2 text-sm">
-                          <input type="checkbox" className="rounded" />
-                          {range}
-                        </label>
-                      ))}
+                  {'ageRanges' in categoryData && categoryData.ageRanges && (
+                    <div>
+                      <h3 className="font-semibold text-sm mb-3 text-pink-600">
+                        👶 Yaş Aralığı
+                      </h3>
+                      <div className="space-y-2">
+                        {categoryData.ageRanges.map((range) => (
+                          <label key={range} className="flex items-center gap-2 text-sm">
+                            <input type="checkbox" className="rounded" />
+                            {range}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </>
               )}
 
