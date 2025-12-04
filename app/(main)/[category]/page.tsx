@@ -113,7 +113,7 @@ export default async function CategoryPage({ params }: PageProps) {
                     <div>
                       <p className="text-sm font-medium text-green-600 mb-1">✓ Artılar</p>
                       <ul className="text-sm text-muted-foreground space-y-1">
-                        {product.pros.slice(0, 2).map((pro, i) => (
+                        {product.pros.slice(0, 2).map((pro: string, i: number) => (
                           <li key={i}>• {pro}</li>
                         ))}
                       </ul>
