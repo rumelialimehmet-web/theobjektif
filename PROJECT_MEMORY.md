@@ -1,8 +1,8 @@
 # PROJECT_MEMORY.md
 > **Project Name:** The Objektif - Veri Odaklı Ürün İnceleme Platformu
 > **Last Updated:** 2025-12-04
-> **Current Phase:** MVP Tamamlandı - Supabase Entegrasyonu Aktif
-> **Active Context:** Production Ready - Vercel Deploy
+> **Current Phase:** Admin Panel Tamamlandı - Ürün Ekleme Aktif
+> **Active Context:** Admin Panel ile Veri Yönetimi
 
 ---
 
@@ -46,7 +46,13 @@
       - `/[category]`: Kategori sayfaları (dynamic routing)
       - `/[category]/[subcategory]`: Alt kategori sayfaları
       - `/[category]/[subcategory]/[product]`: Ürün detay ("KALP KISMI")
+    * `/app/admin`: Admin panel (middleware ile korumalı)
+      - `/login`: Admin giriş sayfası
+      - `/products`: Ürün listesi
+      - `/products/new`: Yeni ürün ekleme formu
+      - `actions.ts`: Server actions (createProduct, deleteProduct)
     * `/app/karsilastir`: VS karşılaştırma sayfaları
+    * `/app/api/admin/logout`: Logout endpoint
     * `/components/home`: Ana sayfa component'leri
     * `/components/product`: Ürün-spesifik component'ler (ObjektifScoreCard, PriceButtons)
     * `/components/shared`: Paylaşılan component'ler (Header, Footer)
@@ -55,6 +61,7 @@
       - `categories.ts`: Kategori tanımları (CATEGORIES const)
       - `supabase.ts`: Supabase client
       - `supabase-queries.ts`: Tüm database sorguları
+    * `middleware.ts`: Admin route koruma
 * **Naming Conventions:**
   - Components: PascalCase (ObjektifScoreCard.tsx)
   - Functions: camelCase (getProductsByCategory)
@@ -65,7 +72,8 @@
 ## [4. ACTIVE RULES (The "Laws")]
 *(Yapay zekanın asla çiğnememesi gereken kurallar)*
 1. **Supabase Güvenliği**: ASLA API Key'leri koda gömme. `.env.local` kullan ve `.gitignore`'a ekle.
-2. **Renk Sistemi**: Objektif puanlama için dinamik renkler kullan:
+2. **Admin Panel Auth**: Admin şifresi: `objektif2024` (development). Production'da değiştirilmeli.
+3. **Renk Sistemi**: Objektif puanlama için dinamik renkler kullan:
    - 9.0+: emerald-600 (Mükemmel)
    - 8.0-8.9: teal-600 (Çok İyi)
    - 7.0-7.9: amber-500 (İyi)
@@ -104,18 +112,33 @@
   - [x] Renk sistemi optimize edildi
   - [x] Anne-Bebek özel güvenlik filtreleri
   - [x] Responsive design
-- [ ] Phase 5: Production Enhancements
-  - [ ] Supabase'e örnek ürünler ekleme
+- [x] Phase 5: Admin Panel (Vibecoder Friendly!)
+  - [x] Admin login sayfası (password: objektif2024)
+  - [x] Middleware ile route koruma
+  - [x] Admin dashboard
+  - [x] Ürün listesi sayfası
+  - [x] Tam özellikli ürün ekleme formu
+    - [x] Kategori/alt kategori seçimi
+    - [x] Dinamik artılar/eksiler listesi
+    - [x] Teknik özellikler (key-value)
+    - [x] Güvenlik rozetleri (anne-bebek)
+    - [x] Otomatik slug oluşturma
+  - [x] Server actions (createProduct, deleteProduct)
+  - [x] Logout endpoint
+  - [ ] Ürün düzenleme formu
+  - [ ] Ürün silme konfirmasyonu
+- [ ] Phase 6: Production Enhancements
+  - [ ] Admin üzerinden 5-10 örnek ürün ekle
   - [ ] Fiyat geçmişi grafiği
   - [ ] E-posta bildirimleri (price alerts için)
   - [ ] SEO meta tags
   - [ ] Sitemap.xml
   - [ ] Analytics (Vercel Analytics)
-- [ ] Phase 6: Advanced Features
-  - [ ] Admin panel (ürün ekleme/düzenleme)
+- [ ] Phase 7: Advanced Features
   - [ ] Kullanıcı yorumları (AI özeti ile)
   - [ ] Fiyat tracking cron job
   - [ ] Newsletter sistemi
+  - [ ] Bulk product import
 
 ## [6. DECISION LOG & ANTI-PATTERNS]
 *(Hatalardan ders çıkarma günlüğü)*
@@ -125,6 +148,7 @@
 * **[2025-12-04 - Supabase Schema]:** `category_id` (UUID) yerine `category` ve `subcategory` (TEXT slug) kullanıyoruz. Daha basit, daha hızlı sorgular. ✅ Karar: Slug-based routing.
 * **[2025-12-04 - Server Components]:** Tüm sayfalar async server component'e dönüştürüldü. Client component sadece PriceAlertModal. ✅ Performans artışı.
 * **[2025-12-04 - Pure White Background]:** Kullanıcı arka plan rengini göz yorucu buldu. slate-50 -> #FFFFFF değişikliği. ✅ Modern, temiz görünüm.
+* **[2025-12-04 - Admin Panel Eklendi]:** Supabase SQL yazmak yerine UI üzerinden ürün yönetimi. Vibecoder-friendly! Basit password auth (objektif2024). ✅ Kullanıcı deneyimi çok daha iyi.
 
 ### Anti-Patterns (Bir Daha Yapma!)
 * **❌ Tailwind v4 Kullanma:** Shadcn/UI ile uyumsuz. v3.4.x'de kal.
@@ -241,4 +265,4 @@
 
 ---
 
-**LAST ACTION:** Site arka plan rengi pure white (#FFFFFF) olarak değiştirildi. Kullanıcı deneyimi iyileştirildi.
+**LAST ACTION:** Admin panel eklendi! Artık UI üzerinden ürün eklenebilir. Login: /admin/login (şifre: objektif2024). Vibecoder-friendly tam özellikli ürün yönetimi.
