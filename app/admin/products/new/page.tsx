@@ -10,6 +10,7 @@ import { Plus, X, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { createProduct } from "@/app/admin/actions";
 import { CATEGORIES } from "@/lib/categories";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function NewProductPage() {
   const [specValue, setSpecValue] = useState("");
   const [specs, setSpecs] = useState<Record<string, string>>({});
   const [safetyBadges, setSafetyBadges] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   // Slug oluştur
   const generateSlug = (text: string) => {
@@ -124,6 +126,7 @@ export default function NewProductPage() {
         cons: cons.filter((c) => c.trim() !== ""),
         specs,
         safetyBadges: isBabyCategory ? safetyBadges : undefined,
+        imageUrl: imageUrl || undefined,
       });
 
       if (result.success) {
@@ -201,6 +204,22 @@ export default function NewProductPage() {
                 />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Ürün Resmi */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Ürün Resmi</CardTitle>
+            <CardDescription>Ürünün görselini yükleyin</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ImageUpload
+              currentImageUrl={imageUrl}
+              productSlug={slug || "new-product"}
+              onImageUploaded={(url) => setImageUrl(url)}
+              onImageRemoved={() => setImageUrl("")}
+            />
           </CardContent>
         </Card>
 

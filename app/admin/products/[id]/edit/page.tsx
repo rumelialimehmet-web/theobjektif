@@ -11,6 +11,7 @@ import Link from "next/link";
 import { updateProduct } from "@/app/admin/actions";
 import { CATEGORIES } from "@/lib/categories";
 import { supabase } from "@/lib/supabase";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 export default function EditProductPage() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function EditProductPage() {
     { key: "", value: "" },
   ]);
   const [safetyBadges, setSafetyBadges] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   // Auto-generate slug from name
   const generateSlug = (text: string) => {
@@ -87,6 +89,7 @@ export default function EditProductPage() {
         setIsLoading(false);
       }
     }
+        setImageUrl(data.image_url || "");
 
     loadProduct();
   }, [productId]);
@@ -123,6 +126,7 @@ export default function EditProductPage() {
       pros: pros.filter((p) => p.trim() !== ""),
       cons: cons.filter((c) => c.trim() !== ""),
       specs: specsObject,
+      imageUrl: imageUrl || undefined,
       safetyBadges: isBabyCategory ? safetyBadges : undefined,
     });
 
@@ -264,6 +268,22 @@ export default function EditProductPage() {
                 </select>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Ürün Resmi */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Ürün Resmi</CardTitle>
+            <CardDescription>Ürünün görselini yükleyin veya güncelleyin</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ImageUpload
+              currentImageUrl={imageUrl}
+              productSlug={slug || "product"}
+              onImageUploaded={(url) => setImageUrl(url)}
+              onImageRemoved={() => setImageUrl("")}
+            />
           </CardContent>
         </Card>
 

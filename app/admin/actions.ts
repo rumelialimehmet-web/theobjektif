@@ -19,6 +19,7 @@ export type ProductFormData = {
   cons: string[];
   specs: Record<string, string>;
   safetyBadges?: string[];
+  imageUrl?: string;
 };
 
 export async function createProduct(formData: ProductFormData) {
@@ -38,6 +39,7 @@ export async function createProduct(formData: ProductFormData) {
         cons: formData.cons,
         specs: formData.specs,
         safety_badges: formData.safetyBadges || [],
+        image_url: formData.imageUrl || null,
       })
       .select()
       .single();
@@ -77,6 +79,7 @@ export async function updateProduct(productId: string, formData: ProductFormData
         cons: formData.cons,
         specs: formData.specs,
         safety_badges: formData.safetyBadges || [],
+        image_url: formData.imageUrl || null,
       })
       .eq("id", productId)
       .select()
