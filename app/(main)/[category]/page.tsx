@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { ChevronRight } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
 
 type PageProps = {
   params: { category: string };

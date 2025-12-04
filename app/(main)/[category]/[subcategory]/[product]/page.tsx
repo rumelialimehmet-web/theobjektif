@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Users, Palette, Zap, GitCompare, MessageSquare, HelpCircle } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
 
 type PageProps = {
   params: { category: string; subcategory: string; product: string };
