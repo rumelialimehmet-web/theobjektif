@@ -1,4 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// .env.local dosyasını yükle
+config({ path: resolve(process.cwd(), '.env.local') });
 
 // Supabase client oluştur
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -6,6 +11,8 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Supabase bilgileri bulunamadı! .env.local dosyasını kontrol edin.');
+  console.error('URL:', supabaseUrl);
+  console.error('Key:', supabaseKey ? 'Mevcut' : 'Yok');
   process.exit(1);
 }
 
