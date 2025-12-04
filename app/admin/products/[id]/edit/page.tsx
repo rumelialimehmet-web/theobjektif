@@ -82,6 +82,7 @@ export default function EditProductPage() {
         setSpecs(specsArray.length > 0 ? specsArray : [{ key: "", value: "" }]);
 
         setSafetyBadges(data.safety_badges || []);
+        setImageUrl(data.image_url || "");
       } catch (err) {
         console.error("Error loading product:", err);
         setError("Ürün yüklenirken hata oluştu");
@@ -89,7 +90,6 @@ export default function EditProductPage() {
         setIsLoading(false);
       }
     }
-        setImageUrl(data.image_url || "");
 
     loadProduct();
   }, [productId]);
