@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CATEGORIES, MOCK_PRODUCTS, CategorySlug } from "@/lib/categories";
+import { CATEGORIES, CategorySlug } from "@/lib/categories";
+import { getProductsBySubcategory } from "@/lib/supabase-queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ type PageProps = {
   params: { category: string; subcategory: string };
 };
 
-export default function SubcategoryPage({ params }: PageProps) {
+export default async function SubcategoryPage({ params }: PageProps) {
   const categoryData = CATEGORIES[params.category as CategorySlug];
 
   if (!categoryData || !categoryData.subcategories[params.subcategory as keyof typeof categoryData.subcategories]) {
@@ -23,12 +24,8 @@ export default function SubcategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  // Bu alt kategorideki ürünleri filtrele
-  const products = MOCK_PRODUCTS.filter(
-    (product) =>
-      product.category === params.category &&
-      product.subcategory === params.subcategory
-  );
+  // Bu alt kategorideki ürünleri Supabase'den getir
+  const products = await getProductsBySubcategory(params.category, params.subcategory);
 
   // Anne-Bebek kategorisi mi?
   const isBabyCategory = params.category === "anne-bebek";

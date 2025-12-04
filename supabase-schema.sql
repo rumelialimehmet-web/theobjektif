@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS products (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
-  category_id UUID REFERENCES categories(id),
+  category TEXT NOT NULL, -- Kategori slug'ı (örn: "anne-bebek")
+  subcategory TEXT NOT NULL, -- Alt kategori slug'ı (örn: "oto-koltugu")
+  category_id UUID REFERENCES categories(id), -- İleride kullanılmak üzere
   brand TEXT,
   image_url TEXT,
   current_price DECIMAL,

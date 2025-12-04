@@ -21,11 +21,8 @@ export async function getProductsByCategory(categorySlug: string) {
   try {
     const { data, error } = await supabase
       .from("products")
-      .select(`
-        *,
-        category:categories(name, slug)
-      `)
-      .eq("categories.slug", categorySlug)
+      .select("*")
+      .eq("category", categorySlug)
       .order("rating", { ascending: false });
 
     if (error) throw error;
@@ -42,20 +39,15 @@ export async function getProductsBySubcategory(
   subcategorySlug: string
 ) {
   try {
-    // Mock implementation - gerçek subcategory yapısı kategoriler tablosunda parent_id ile kurulacak
     const { data, error } = await supabase
       .from("products")
       .select("*")
+      .eq("category", categorySlug)
+      .eq("subcategory", subcategorySlug)
       .order("rating", { ascending: false });
 
     if (error) throw error;
-
-    // Client-side filtreleme (geçici)
-    const filtered = data?.filter(
-      (p) => p.category === categorySlug && p.subcategory === subcategorySlug
-    );
-
-    return filtered || [];
+    return data || [];
   } catch (error) {
     console.error("Error fetching products by subcategory:", error);
     return [];
@@ -67,10 +59,7 @@ export async function getProductBySlug(productSlug: string) {
   try {
     const { data, error } = await supabase
       .from("products")
-      .select(`
-        *,
-        category:categories(name, slug)
-      `)
+      .select("*")
       .eq("slug", productSlug)
       .single();
 
@@ -79,6 +68,21 @@ export async function getProductBySlug(productSlug: string) {
   } catch (error) {
     console.error("Error fetching product by slug:", error);
     return null;
+  }
+}
+
+// Tüm ürünleri getir (generateStaticParams için)
+export async function getAllProducts() {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, slug, category, subcategory");
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching all products:", error);
+    return [];
   }
 }
 

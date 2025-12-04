@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CATEGORIES, MOCK_PRODUCTS, CategorySlug } from "@/lib/categories";
+import { CATEGORIES, CategorySlug } from "@/lib/categories";
+import { getProductsByCategory } from "@/lib/supabase-queries";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,17 +12,15 @@ type PageProps = {
   params: { category: string };
 };
 
-export default function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage({ params }: PageProps) {
   const categoryData = CATEGORIES[params.category as CategorySlug];
 
   if (!categoryData) {
     notFound();
   }
 
-  // Bu kategorideki ürünleri filtrele
-  const categoryProducts = MOCK_PRODUCTS.filter(
-    (product) => product.category === params.category
-  );
+  // Bu kategorideki ürünleri Supabase'den getir
+  const categoryProducts = await getProductsByCategory(params.category);
 
   return (
     <div className="container mx-auto px-4 py-8">

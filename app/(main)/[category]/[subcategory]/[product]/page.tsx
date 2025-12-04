@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CATEGORIES, MOCK_PRODUCTS, CategorySlug } from "@/lib/categories";
+import { CATEGORIES, CategorySlug } from "@/lib/categories";
+import { getProductBySlug } from "@/lib/supabase-queries";
 import { ObjektifScoreCard } from "@/components/product/objektif-score-card";
 import { PriceButtons } from "@/components/product/price-buttons";
 import { PriceAlertModal } from "@/components/product/price-alert-modal";
@@ -14,15 +15,15 @@ type PageProps = {
   params: { category: string; subcategory: string; product: string };
 };
 
-export default function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params }: PageProps) {
   const categoryData = CATEGORIES[params.category as CategorySlug];
 
   if (!categoryData) {
     notFound();
   }
 
-  // Ürünü bul
-  const product = MOCK_PRODUCTS.find((p) => p.slug === params.product);
+  // Ürünü Supabase'den getir
+  const product = await getProductBySlug(params.product);
 
   if (!product) {
     notFound();
@@ -373,7 +374,17 @@ export default function ProductPage({ params }: PageProps) {
 
 // Generate static params for all products
 export async function generateStaticParams() {
-  return MOCK_PRODUCTS.map((product) => ({
+  const { getAllProducts } = await import("@/lib/supabase-queries");
+
+  // Supabase'den ürünleri çek (fallback: boş dizi)
+  const products = await getAllProducts();
+
+  // Eğer Supabase'de veri yoksa, boş dizi dön (dinamik olarak oluşturulacak)
+  if (!products || products.length === 0) {
+    return [];
+  }
+
+  return products.map((product) => ({
     category: product.category,
     subcategory: product.subcategory,
     product: product.slug,
