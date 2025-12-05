@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, SlidersHorizontal } from "lucide-react";
+import { getPlaceholderImage } from "@/lib/storage";
+import Image from "next/image";
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -184,6 +186,7 @@ export default async function SubcategoryPage({ params }: PageProps) {
           {products.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {products.map((product) => (
+<<<<<<< HEAD
                 <Card key={product.id} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex items-start justify-between mb-2">
@@ -196,6 +199,32 @@ export default async function SubcategoryPage({ params }: PageProps) {
                       </div>
                     </div>
                     <CardTitle className="text-xl">{product.name}</CardTitle>
+=======
+                <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+                  {/* Product Image */}
+                  <div className="relative w-full h-56 bg-slate-100">
+                    <Image
+                      src={product.image_url || getPlaceholderImage()}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                    <Badge
+                      variant="secondary"
+                      className="absolute top-2 left-2 bg-white/90 backdrop-blur"
+                    >
+                      {product.brand}
+                    </Badge>
+                    <div className="absolute top-2 right-2 bg-accent text-white px-3 py-1 rounded-full">
+                      <span className="text-xl font-bold">{product.rating}</span>
+                      <span className="text-xs">/10</span>
+                    </div>
+                  </div>
+
+                  <CardHeader>
+                    <CardTitle className="text-xl line-clamp-2">{product.name}</CardTitle>
+>>>>>>> bcfa0b2 (feat: Tüm sayfalarda ürün resimlerini göster)
                     {product.safety_badges && (
                       <div className="flex flex-wrap gap-2 mt-2">
                         {product.safety_badges.map((badge: string) => (

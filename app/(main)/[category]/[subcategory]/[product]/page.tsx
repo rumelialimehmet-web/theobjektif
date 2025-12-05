@@ -10,6 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Users, Palette, Zap, GitCompare, MessageSquare, HelpCircle } from "lucide-react";
+import { getPlaceholderImage } from "@/lib/storage";
+import Image from "next/image";
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -88,6 +90,17 @@ export default async function ProductPage({ params }: PageProps) {
         <p className="text-muted-foreground">
           Son güncelleme: 3 Aralık 2025 | Test süresi: 2 hafta
         </p>
+      </div>
+
+      {/* Product Image */}
+      <div className="relative w-full h-96 bg-slate-100 mb-12 rounded-lg overflow-hidden">
+        <Image
+          src={product.image_url || getPlaceholderImage()}
+          alt={product.name}
+          fill
+          className="object-contain"
+          unoptimized
+        />
       </div>
 
       {/* Above the Fold - Özet Kartı */}
