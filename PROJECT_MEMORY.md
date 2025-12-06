@@ -1,8 +1,8 @@
 # PROJECT_MEMORY.md
 > **Project Name:** The Objektif - Veri Odaklı Ürün İnceleme Platformu
-> **Last Updated:** 2025-12-04
-> **Current Phase:** Admin Panel Tamamlandı - Ürün Ekleme Aktif
-> **Active Context:** Admin Panel ile Veri Yönetimi
+> **Last Updated:** 2025-12-06
+> **Current Phase:** Phase 5 Tamamlandı - Production Enhancements Başladı
+> **Active Context:** Örnek Ürün Ekleme & SEO Optimizasyonu
 
 ---
 
@@ -112,9 +112,9 @@
   - [x] Renk sistemi optimize edildi
   - [x] Anne-Bebek özel güvenlik filtreleri
   - [x] Responsive design
-- [x] Phase 5: Admin Panel (Vibecoder Friendly!)
+- [x] Phase 5: Admin Panel (Vibecoder Friendly!) ✅ TAMAMLANDI
   - [x] Admin login sayfası (password: objektif2024)
-  - [x] Middleware ile route koruma
+  - [x] Server-side authentication (Next.js 16 uyumlu, cookie-based)
   - [x] Admin dashboard
   - [x] Ürün listesi sayfası
   - [x] Tam özellikli ürün ekleme formu
@@ -123,10 +123,15 @@
     - [x] Teknik özellikler (key-value)
     - [x] Güvenlik rozetleri (anne-bebek)
     - [x] Otomatik slug oluşturma
-  - [x] Server actions (createProduct, deleteProduct)
-  - [x] Logout endpoint
-  - [ ] Ürün düzenleme formu
-  - [ ] Ürün silme konfirmasyonu
+  - [x] Server actions (createProduct, updateProduct, deleteProduct)
+  - [x] Logout button component
+  - [x] Ürün düzenleme formu (app/admin/products/[id]/edit/page.tsx)
+  - [x] Ürün silme konfirmasyonu (AlertDialog ile)
+  - [x] Resim Upload Sistemi (Supabase Storage)
+    - [x] ImageUpload component (preview, validation, 5MB limit)
+    - [x] Storage helper functions (lib/storage.ts)
+    - [x] Frontend'de resim gösterimi (ana sayfa, kategori, ürün detay)
+    - [ ] ⚠️ Storage RLS policy'leri (Supabase Dashboard'da manuel kurulmalı)
 - [ ] Phase 6: Production Enhancements
   - [ ] Admin üzerinden 5-10 örnek ürün ekle
   - [ ] Fiyat geçmişi grafiği
@@ -149,6 +154,7 @@
 * **[2025-12-04 - Server Components]:** Tüm sayfalar async server component'e dönüştürüldü. Client component sadece PriceAlertModal. ✅ Performans artışı.
 * **[2025-12-04 - Pure White Background]:** Kullanıcı arka plan rengini göz yorucu buldu. slate-50 -> #FFFFFF değişikliği. ✅ Modern, temiz görünüm.
 * **[2025-12-04 - Admin Panel Eklendi]:** Supabase SQL yazmak yerine UI üzerinden ürün yönetimi. Vibecoder-friendly! Basit password auth (objektif2024). ✅ Kullanıcı deneyimi çok daha iyi.
+* **[2025-12-06 - Phase 5 Tamamlandı]:** Admin panel tam özellikli hale geldi. Ürün düzenleme, silme (AlertDialog onay ile), resim upload (Supabase Storage), tüm frontend sayfalarında resim gösterimi eklendi. Next.js 16 uyumlu server-side auth. ✅ Production'a hazır admin sistemi.
 
 ### Anti-Patterns (Bir Daha Yapma!)
 * **❌ Tailwind v4 Kullanma:** Shadcn/UI ile uyumsuz. v3.4.x'de kal.
@@ -265,4 +271,4 @@
 
 ---
 
-**LAST ACTION:** Admin panel eklendi! Artık UI üzerinden ürün eklenebilir. Login: /admin/login (şifre: objektif2024). Vibecoder-friendly tam özellikli ürün yönetimi.
+**LAST ACTION:** Phase 5 tamamlandı! Admin panel tam özellikli: Ürün ekleme, düzenleme, silme ve resim upload sistemi çalışıyor. Frontend'de tüm sayfalarda ürün resimleri gösteriliyor. ⚠️ Kritik: Supabase Storage RLS policy'lerini manuel kurman gerekiyor. Login: /admin/login (şifre: objektif2024).
