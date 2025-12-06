@@ -235,20 +235,6 @@ export default async function SubcategoryPage({ params }: PageProps) {
           {products.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {products.map((product) => (
-<<<<<<< HEAD
-                <Card key={product.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <Badge variant="secondary">{product.brand}</Badge>
-                      <div className="flex items-center gap-1">
-                        <span className="text-2xl font-bold text-accent">
-                          {product.rating}
-                        </span>
-                        <span className="text-sm text-muted-foreground">/10</span>
-                      </div>
-                    </div>
-                    <CardTitle className="text-xl">{product.name}</CardTitle>
-=======
                 <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden">
                   {/* Product Image */}
                   <div className="relative w-full h-56 bg-slate-100">
@@ -273,7 +259,6 @@ export default async function SubcategoryPage({ params }: PageProps) {
 
                   <CardHeader>
                     <CardTitle className="text-xl line-clamp-2">{product.name}</CardTitle>
->>>>>>> bcfa0b2 (feat: Tüm sayfalarda ürün resimlerini göster)
                     {product.safety_badges && (
                       <div className="flex flex-wrap gap-2 mt-2">
                         {product.safety_badges.map((badge: string) => (
