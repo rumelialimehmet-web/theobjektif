@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     creator: '@theobjektif',
   },
   verification: {
-    google: 'google-site-verification-code', // Kullanıcı Google Search Console'dan alacak
+    google: 'cKfP0FTGJpOoG-hSFD-89eoDsTKoyWMXkk9VRztCbGQ',
   },
   alternates: {
     canonical: 'https://theobjektif.com',
