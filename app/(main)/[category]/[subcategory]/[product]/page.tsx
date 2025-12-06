@@ -65,6 +65,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       type: "article",
       url: `https://theobjektif.com/${category}/${subcategory}/${productSlug}`,
+      publishedTime: product.created_at || new Date().toISOString(),
+      authors: ["The Objektif Ekibi"],
+      tags: keywords,
       images: [
         {
           url: product.image_url || "/og-image.jpg",
@@ -73,11 +76,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           alt: product.name,
         },
       ],
-      article: {
-        publishedTime: product.created_at || new Date().toISOString(),
-        authors: ["The Objektif Ekibi"],
-        tags: keywords,
-      },
     },
     twitter: {
       card: "summary_large_image",
