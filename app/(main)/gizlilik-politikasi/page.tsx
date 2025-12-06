@@ -1,4 +1,23 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "Gizlilik Politikası",
+  description: "The Objektif gizlilik politikası. Kişisel verilerinizin korunması, çerez kullanımı ve veri güvenliği hakkında bilgi.",
+  keywords: ["gizlilik politikası", "kişisel veri", "KVKK", "veri güvenliği", "çerez politikası"],
+  openGraph: {
+    title: "Gizlilik Politikası - The Objektif",
+    description: "Kişisel verilerinizin korunması ve gizlilik politikamız.",
+    url: "https://theobjektif.com/gizlilik-politikasi",
+  },
+  alternates: {
+    canonical: "https://theobjektif.com/gizlilik-politikasi",
+  },
+  robots: {
+    index: false, // Gizlilik sayfasını indexleme
+    follow: true,
+  },
+};
 
 export default function GizlilikPolitikasiPage() {
   return (

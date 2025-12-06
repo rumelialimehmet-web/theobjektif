@@ -1,4 +1,19 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "Nasıl Test Ediyoruz?",
+  description: "The Objektif'in 2 haftalık test süreci. Uzman testleri, kalite kontrol ve objektif puanlama metodolojimiz hakkında detaylı bilgi.",
+  keywords: ["ürün testi", "test süreci", "uzman incelemeleri", "kalite kontrol", "objektif değerlendirme"],
+  openGraph: {
+    title: "Nasıl Test Ediyoruz? - The Objektif",
+    description: "2 haftalık uzman testi ve objektif puanlama sistemimiz.",
+    url: "https://theobjektif.com/nasil-test-ediyoruz",
+  },
+  alternates: {
+    canonical: "https://theobjektif.com/nasil-test-ediyoruz",
+  },
+};
 
 export default function NasilTestEdiyoruzPage() {
   return (

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CATEGORIES, CategorySlug } from "@/lib/categories";
@@ -19,6 +20,76 @@ export const dynamicParams = true;
 type PageProps = {
   params: Promise<{ category: string; subcategory: string; product: string }>;
 };
+
+// Dynamic Metadata için generateMetadata fonksiyonu
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category, subcategory, product: productSlug } = await params;
+  const product = await getProductBySlug(productSlug);
+
+  if (!product) {
+    return {
+      title: "Ürün Bulunamadı",
+      description: "Aradığınız ürün bulunamadı.",
+    };
+  }
+
+  const categoryData = CATEGORIES[category as CategorySlug];
+  const subcategoryData = categoryData?.subcategories[subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string } | undefined;
+
+  const title = `${product.name} - Detaylı İnceleme ve Objektif Puanı`;
+  const description = `${product.name} incelemesi: ${product.rating}/10 puan. ${product.pros?.slice(0, 2).join(", ")}. Fiyat karşılaştırma ve detaylı analiz.`;
+
+  const keywords = [
+    product.name,
+    product.brand,
+    `${product.name} inceleme`,
+    `${product.name} fiyat`,
+    `${product.brand} ${subcategoryData?.name}`,
+    categoryData?.name || "",
+    subcategoryData?.name || "",
+    "objektif puan",
+    "fiyat karşılaştırma",
+  ];
+
+  // Anne-bebek kategorisi için güvenlik anahtar kelimeleri ekle
+  if (category === "anne-bebek" && product.safety_badges?.length) {
+    keywords.push(...product.safety_badges, "güvenlik testleri", "ADAC testi");
+  }
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://theobjektif.com/${category}/${subcategory}/${productSlug}`,
+      images: [
+        {
+          url: product.image_url || "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+      article: {
+        publishedTime: product.created_at || new Date().toISOString(),
+        authors: ["The Objektif Ekibi"],
+        tags: keywords,
+      },
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [product.image_url || "/og-image.jpg"],
+    },
+    alternates: {
+      canonical: `https://theobjektif.com/${category}/${subcategory}/${productSlug}`,
+    },
+  };
+}
 
 export default async function ProductPage({ params }: PageProps) {
   const { category, subcategory, product: productSlug } = await params;

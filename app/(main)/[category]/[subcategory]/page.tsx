@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CATEGORIES, CategorySlug } from "@/lib/categories";
@@ -15,6 +16,54 @@ export const dynamicParams = true;
 type PageProps = {
   params: Promise<{ category: string; subcategory: string }>;
 };
+
+// Dynamic Metadata
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category, subcategory } = await params;
+  const categoryData = CATEGORIES[category as CategorySlug];
+
+  if (!categoryData || !categoryData.subcategories[subcategory as keyof typeof categoryData.subcategories]) {
+    return {
+      title: "Sayfa Bulunamadı",
+      description: "Aradığınız sayfa bulunamadı.",
+    };
+  }
+
+  const subcategoryData = categoryData.subcategories[subcategory as keyof typeof categoryData.subcategories] as { name: string; description: string };
+
+  const title = `${subcategoryData.name} İncelemeleri`;
+  const description = `${subcategoryData.description} En iyi ${subcategoryData.name.toLowerCase()} modellerini objektif puanlama sistemi ile karşılaştırın. Fiyat karşılaştırma ve detaylı incelemeler.`;
+
+  const keywords = [
+    subcategoryData.name,
+    `${subcategoryData.name} inceleme`,
+    `en iyi ${subcategoryData.name}`,
+    `${subcategoryData.name} fiyat`,
+    `${subcategoryData.name} karşılaştırma`,
+    categoryData.name,
+    "objektif puan",
+  ];
+
+  // Anne-bebek kategorisi için özel keywords
+  if (category === "anne-bebek") {
+    keywords.push("güvenlik testleri", "ADAC", "bebek güvenliği");
+  }
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      url: `https://theobjektif.com/${category}/${subcategory}`,
+      images: [{ url: "/og-image.jpg" }],
+    },
+    alternates: {
+      canonical: `https://theobjektif.com/${category}/${subcategory}`,
+    },
+  };
+}
 
 export default async function SubcategoryPage({ params }: PageProps) {
   const { category, subcategory } = await params;

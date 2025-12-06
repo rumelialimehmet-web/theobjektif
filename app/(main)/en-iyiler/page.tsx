@@ -1,4 +1,19 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "En İyiler Listesi",
+  description: "Editörün seçimi ve kategorilere göre en iyi ürünler. Uzman testleri sonucunda en yüksek puanı alan ürünlerin listeleri.",
+  keywords: ["en iyi ürünler", "editörün seçimi", "yılın ürünleri", "önerilen ürünler", "best of"],
+  openGraph: {
+    title: "En İyiler Listesi - The Objektif",
+    description: "Kategorilere göre en iyi ürünler ve editörün seçimleri.",
+    url: "https://theobjektif.com/en-iyiler",
+  },
+  alternates: {
+    canonical: "https://theobjektif.com/en-iyiler",
+  },
+};
 
 export default function EnIyilerPage() {
   return (

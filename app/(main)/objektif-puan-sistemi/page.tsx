@@ -1,5 +1,20 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+export const metadata: Metadata = {
+  title: "Objektif Puan Sistemi",
+  description: "10 üzerinden objektif puanlama sistemimiz nasıl çalışır? Performans, kalite, fiyat/performans ve kullanım deneyimi kategorilerindeki değerlendirme kriterleri.",
+  keywords: ["objektif puanlama", "puan sistemi", "ürün değerlendirme", "rating sistemi", "performans testi"],
+  openGraph: {
+    title: "Objektif Puan Sistemi - The Objektif",
+    description: "10 üzerinden objektif puanlama sistemimiz ve değerlendirme kriterleri.",
+    url: "https://theobjektif.com/objektif-puan-sistemi",
+  },
+  alternates: {
+    canonical: "https://theobjektif.com/objektif-puan-sistemi",
+  },
+};
 
 export default function ObjektifPuanSistemiPage() {
   return (

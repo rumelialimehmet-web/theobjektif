@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CATEGORIES, CategorySlug } from "@/lib/categories";
@@ -14,6 +15,44 @@ export const dynamicParams = true;
 type PageProps = {
   params: Promise<{ category: string }>;
 };
+
+// Dynamic Metadata
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category } = await params;
+  const categoryData = CATEGORIES[category as CategorySlug];
+
+  if (!categoryData) {
+    return {
+      title: "Kategori Bulunamadı",
+      description: "Aradığınız kategori bulunamadı.",
+    };
+  }
+
+  const title = `${categoryData.name} Ürün İncelemeleri`;
+  const description = `${categoryData.description} Objektif puanlama sistemi ile en iyi ${categoryData.name.toLowerCase()} ürünlerini keşfedin.`;
+
+  return {
+    title,
+    description,
+    keywords: [
+      categoryData.name,
+      `${categoryData.name} incelemeleri`,
+      `${categoryData.name} ürünleri`,
+      "objektif puan",
+      "fiyat karşılaştırma",
+      "uzman incelemeleri",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: `https://theobjektif.com/${category}`,
+      images: [{ url: "/og-image.jpg" }],
+    },
+    alternates: {
+      canonical: `https://theobjektif.com/${category}`,
+    },
+  };
+}
 
 export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;

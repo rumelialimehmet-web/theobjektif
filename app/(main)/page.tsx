@@ -1,14 +1,8 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/hero-section";
 import { CategoryCards } from "@/components/home/category-cards";
 import { FeaturedLists } from "@/components/home/featured-lists";
 import { TrustSignals } from "@/components/home/trust-signals";
-<<<<<<< HEAD
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-=======
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +10,29 @@ import { supabase } from "@/lib/supabase";
 import { getPlaceholderImage } from "@/lib/storage";
 import Link from "next/link";
 import Image from "next/image";
->>>>>>> bcfa0b2 (feat: Tüm sayfalarda ürün resimlerini göster)
+
+export const metadata: Metadata = {
+  title: "Ana Sayfa",
+  description: "Teknoloji, ev yaşam ve anne-bebek ürünleri için objektif puanlama ve tarafsız incelemeler. Uzman testleri, fiyat karşılaştırmaları ve güvenilir öneriler.",
+  keywords: [
+    "ürün incelemeleri",
+    "en iyi ürünler",
+    "objektif puanlama",
+    "fiyat karşılaştırma",
+    "teknoloji inceleme",
+    "anne bebek ürünleri",
+    "ev yaşam",
+  ],
+  openGraph: {
+    title: "The Objektif - Tarafsız Ürün İncelemeleri",
+    description: "Türkiye'nin en objektif ürün inceleme platformu. Uzman testleri ve veri odaklı analizler.",
+    url: "https://theobjektif.com",
+    images: [{ url: "/og-image.jpg" }],
+  },
+  alternates: {
+    canonical: "https://theobjektif.com",
+  },
+};
 
 export const dynamic = 'force-dynamic';
 
